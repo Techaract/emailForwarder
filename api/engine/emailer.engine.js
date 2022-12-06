@@ -5,7 +5,7 @@ module.exports = (db) => {
             if (status) {
                 setInterval(() => {
                     console.log("Emailer engine is running");
-                    //readMail();
+                    readMail();
                 }, 10000)
             }
         }

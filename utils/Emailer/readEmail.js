@@ -10,7 +10,7 @@ const readMail = async () => {
     const connection = await imaps.connect(READ_MAIL_CONFIG);
     console.log('CONNECTION SUCCESSFUL', new Date().toString());
     const box = await connection.openBox('INBOX');
-    const searchCriteria = ['SEEN'];
+    const searchCriteria = ['UNSEEN'];
     const fetchOptions = {
       bodies: ['HEADER', 'TEXT'],
       markSeen: false,
@@ -58,8 +58,8 @@ const readMail = async () => {
         console.log({ subject: subject[0], toEmail })
         if (toEmail) {
           //send same subject and emailHtml to toEmail address
-          // sendMail(subject, emailHTML, toEmail)
-          //sendMail(subject[0], emailHTML, "ashar.ashfaq2@gmail.com")
+          sendMail(subject, emailHTML, toEmail)
+          // sendMail(subject[0], emailHTML, "ashar.ashfaq2@gmail.com")
           // connection.deleteMessage([uuid]);
         }
         //mark that email flagged
