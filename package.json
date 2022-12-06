@@ -1,0 +1,36 @@
+{
+    "name": "smartgate",
+    "version": "1.0.0",
+    "description": "backend for gate",
+    "main": "project.server.js",
+    "scripts": {
+        "start": "nodemon project.server.js",
+        "swagger-autogen": "node swagger.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Techaract",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cookie-parser": "^1.4.5",
+        "crypto-js": "^4.1.1",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-fileupload": "^1.2.1",
+        "express-rate-limit": "^5.2.6",
+        "express-session": "^1.17.1",
+        "helmet": "^5.0.2",
+        "html-to-text": "^9.0.0",
+        "imap-simple": "^5.1.0",
+        "jsonschema": "^1.4.0",
+        "jsonwebtoken": "^8.5.1",
+        "mailin": "^3.0.4",
+        "moment": "^2.29.1",
+        "mysql2": "^2.3.3",
+        "nodemailer": "^6.8.0",
+        "nodemon": "^2.0.15",
+        "sequelize": "^6.17.0",
+        "swagger-ui-express": "^4.3.0",
+        "xlsx-to-json": "^0.3.0"
+    }
+}
