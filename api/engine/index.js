@@ -1,16 +1,7 @@
 module.exports = (db) => {
-    const engines = {};
 
-    //Print All engines;
+    const emailerEngine = require('./emailer.engine')(db);
 
-    //Print Active engines;
-
-    const otpEngine = require('./otp.engine')(db);
-    const notificationEngine = require('./notification.engine')(db);
-
-    otpEngine.sendOtp(process.env.OTP_SEND_ENGINE === "true");
-
-    notificationEngine.emailNotications(process.env.NOTIFICATION_EMAIL_ENGINE === "true");
-    notificationEngine.pushNotifications(process.env.NOTIFICATION_PUSH_ENGINE === "true");
+    emailerEngine.emailerEngine(process.env.EMAILER_SEND_ENGINE === "true");
 }
 

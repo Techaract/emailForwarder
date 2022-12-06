@@ -2,7 +2,7 @@ const imaps = require('imap-simple');
 const { convert } = require('html-to-text');
 const { READ_MAIL_CONFIG } = require('./config');
 const fixedTo = 'astefloriocompany@gmail.com'
-const { findStringForEmail, splitEmail } = require('./controller')
+const { findStringForEmail, splitEmail, convertEmailHTMLToHTML } = require('./controller')
 const { sendMail } = require('./sendEmail')
 // console.log({READ_MAIL_CONFIG});
 const readMail = async () => {
@@ -17,6 +17,7 @@ const readMail = async () => {
     };
     const results = await connection.search(searchCriteria, fetchOptions);
     console.log("len",results.length);
+    var count = 0
     results.forEach((res) => {
       //get id for email
       const uuid = res.attributes.uid;
@@ -32,22 +33,29 @@ const readMail = async () => {
       if (from.includes(fixedTo) || to.includes(fixedTo)) {
         //print all the things
         console.log(uuid, from, to, subject[0]);
-
+        
+        
         //filter (idk why is it necessary)
         const text = res.parts.filter((part) => {
           return part.which === 'TEXT';
         });
         // console.log(text)
         //get email body
-        console.log(text);
-        const emailHTML = text[0].body;
+        // console.log(text);
+        if(count === 0){
+          //console.log("ASHAR",text[0].body);
+          count++;
+        }
+        let emailHTML = text[0].body;
+        emailHTML = convertEmailHTMLToHTML(emailHTML);
+        // console.log(emailHTML);
         //convert email body html to text
         const emailText = splitEmail(convert(emailHTML));
         console.log("splitEmail",emailText);
         //fetch city from subject and email text
         const toEmail = findStringForEmail(subject[0], emailText)
         //print wether the email address exists or not
-        console.log({ toEmail })
+        console.log({ subject: subject[0], toEmail })
         if (toEmail) {
           //send same subject and emailHtml to toEmail address
           // sendMail(subject, emailHTML, toEmail)
