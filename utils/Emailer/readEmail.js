@@ -4,6 +4,7 @@ const { READ_MAIL_CONFIG } = require('./config');
 const fixedTo = 'astefloriocompany@gmail.com'
 const { findStringForEmail, splitEmail, convertEmailHTMLToHTML } = require('./controller')
 const { sendMail } = require('./sendEmail')
+const {writeFile} = require('../../utils/fs.utility')
 // console.log({READ_MAIL_CONFIG});
 const readMail = async () => {
   try {
@@ -47,6 +48,7 @@ const readMail = async () => {
           count++;
         }
         let emailHTML = text[0].body;
+        writeFile(emailHTML);
         emailHTML = convertEmailHTMLToHTML(emailHTML);
         // console.log(emailHTML);
         //convert email body html to text
