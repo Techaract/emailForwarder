@@ -48,6 +48,7 @@ const readMail = async () => {
           count++;
         }
         let emailHTML = text[0].body;
+        console.log(emailHTML)
         writeFile(emailHTML);
         emailHTML = convertEmailHTMLToHTML(emailHTML);
         // console.log(emailHTML);
