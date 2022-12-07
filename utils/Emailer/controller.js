@@ -34,7 +34,12 @@ const stringMatchForSubject = (subject = "", city = "") => {
 
 module.exports.convertEmailHTMLToHTML = (html) => {
     var mySubString = parseBetween("<html>", "</html>", html)
-    return mySubString.replace(/3D/g, '');
+    try{
+        const val = mySubString.replace(/3D/g, '');
+        return val
+    }catch(e){
+        return "";
+    }
 }
 
 
