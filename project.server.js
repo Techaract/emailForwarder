@@ -4,7 +4,7 @@ const { protocol, ssl, server_port } = require('./config');
 
 const db = "From server.js"//require('./api/model');
 // const { fromXlsxToJson } = require('./utils/FileConversion')
-const { readMail, sendMail } = require('./utils/Emailer/index')
+// const { readMail, sendMail } = require('./utils/Emailer/index')
 // readMail();
 // sendMail()
 // fromXlsxToJson();
@@ -13,4 +13,4 @@ const { readMail, sendMail } = require('./utils/Emailer/index')
 //read city from email.
 //string matching for cities
 //send the email
-// require('./api/engine')(db);
+require('./api/engine')(db);
