@@ -1,7 +1,7 @@
 // const email = 'astefloriocompany@gmail.com'
 // const password = '@dm1n123'
 const email = 'aster@techaract.com'
-const password = 'Uo*x&b=uCn3%'
+const password = '3hzEQDOciN.^' //'Uo*x&b=uCn3%' //
 
 module.exports.SEND_MAIL_CONFIG = {
     secure: true,

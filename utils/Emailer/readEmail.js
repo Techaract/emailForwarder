@@ -10,7 +10,7 @@ const readMail = async () => {
     const connection = await imaps.connect(READ_MAIL_CONFIG);
     console.log('CONNECTION SUCCESSFUL', new Date().toString());
     const box = await connection.openBox('INBOX');
-    const searchCriteria = ['UNSEEN'];
+    const searchCriteria = ['SEEN'];
     const fetchOptions = {
       bodies: ['HEADER', 'TEXT'],
       markSeen: false,
@@ -30,7 +30,7 @@ const readMail = async () => {
       console.log({subject});
       // console.log(uuid, from, to);
       // check either email is coming from valid email address.
-      if (from.includes(fixedTo) || to.includes(fixedTo)) {
+      if (from[0].includes(fixedTo) || to[0].includes(fixedTo)) {
         //print all the things
         console.log(uuid, from, to, subject[0]);
         
