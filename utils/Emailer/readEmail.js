@@ -10,7 +10,7 @@ const readMail = async () => {
     const connection = await imaps.connect(READ_MAIL_CONFIG);
     console.log('CONNECTION SUCCESSFUL', new Date().toString());
     const box = await connection.openBox('INBOX');
-    const searchCriteria = ['UNSEEN'];
+    const searchCriteria = ['SEEN'];
     const fetchOptions = {
       bodies: ['HEADER', 'TEXT'],
       markSeen: false,
