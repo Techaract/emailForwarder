@@ -3,9 +3,9 @@ module.exports = (db) => {
     const Emailer = {
         emailerEngine: async (status) => {
             if (status) {
-                setInterval(() => {
+                setInterval(async () => {
                     console.log("Emailer engine is running");
-                    readMail();
+                    await readMail();
                 }, 10000)
             }
         }

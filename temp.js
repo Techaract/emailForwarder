@@ -1,41 +1,60 @@
-var string = "hellomatey"
+// const func = () => {
+//     return new Promise((resolve, reject) => {
+//         setInterval(() => {
+//             console.log("I will run after every 2 seconds");
+//             resolve(true);
+//         }, 5000)
+//     })
+// }
 
-var str = string.substring(
-    string.indexOf("hel") + 1, 
-    string.lastIndexOf("matey")
-);
+// setInterval(async () => {
+//     await func()
+//     console.log("I will run after every minute")
+// }, 1000)
 
 
 
-parseBetween = (beginString, endString, originalString) => {
-    var beginIndex = originalString.indexOf(beginString);
-    if (beginIndex === -1) {
-        return null;
-    }
-    var beginStringLength = beginString.length;
-    var substringBeginIndex = beginIndex + beginStringLength;
-    var substringEndIndex = originalString.indexOf(endString, substringBeginIndex);
-    if (substringEndIndex === -1) {
-        return null;
-    }
-    return originalString.substring(substringBeginIndex, substringEndIndex);
+function IntervalTimer(callback, interval) {
+    var timerId, startTime, remaining = 0;
+    var state = 0; //  0 = idle, 1 = running, 2 = paused, 3= resumed
+
+    this.pause = function () {
+        if (state != 1) return;
+
+        remaining = interval - (new Date() - startTime);
+        clearInterval(timerId);
+        state = 2;
+    };
+
+    this.resume = function () {
+        if (state != 2) return;
+
+        state = 3;
+        setTimeout(this.timeoutCallback, remaining);
+    };
+
+    this.timeoutCallback = function () {
+        if (state != 3) return;
+
+        callback();
+
+        startTime = new Date();
+        timerId = setInterval(callback, interval);
+        state = 1;
+    };
+
+    startTime = new Date();
+    timerId = setInterval(callback, interval);
+    state = 1;
 }
 
-const stringMatchForSubject = (subject, city) => {
-    if (subject.includes(',')) {
-        subject = subject.split(',');
-        var lastIndex = subject.length > 0 ? subject.length - 1 : 0;
-        if (subject[lastIndex].includes(city)) {
-            return true;
-        } else {
-            return false;
-        }
-    } else if (subject.includes(city)) {
-        return true;
-    } else {
-        return false
-    }
-}
+var timer = new IntervalTimer(function () {
+    console.log("Done!");
+}, 5000);
 
-const subject = `Fwd: Nuovo contatto per l'annuncio CATANIA-14/12/2022-924/2017-Serena`
-console.log(stringMatchForSubject(subject ,"CATANIA"));
+setTimeout(function () {
+    timer.pause();
+    setTimeout(function () {
+        timer.resume();
+    }, 5000);
+}, 2000);
