@@ -3,11 +3,15 @@ module.exports.findStringForEmail = (subject = "", textBody = "") => {
     var email = null
     json.forEach(item => {
         //need to write logic here.
-        if (stringMatchForSubject(subject, item['CITY']) //subject.includes(item['CITY']) 
+        const result = stringMatchForSubject(subject, item['CITY']);
+        result && console.log(result);
+        if (result //subject.includes(item['CITY']) 
             || textBody.includes(item['CITY'])
             //|| stringMatchForSubject(subject, item['CITY NAME'])
-            || textBody.includes(item['CITY NAME'])) {
+            // || textBody.includes(item['CITY NAME'])
+        ) {
             email = item['DISTRICT@asteflorio.com'];
+            console.log(email)
         }
     })
     //console.log("ye hai email", email);
@@ -20,7 +24,7 @@ const stringMatchForSubject = (subject = "", city = "") => {
     if (subject.includes(',')) {
         subject = subject.split(',');
         var lastIndex = subject.length > 0 ? subject.length - 1 : 0;
-        if (subject[lastIndex].includes(city)) {
+        if (subject[lastIndex].trim() === city) {
             return true;
         } else {
             return false;
@@ -34,10 +38,10 @@ const stringMatchForSubject = (subject = "", city = "") => {
 
 module.exports.convertEmailHTMLToHTML = (html) => {
     var mySubString = parseBetween("<html>", "</html>", html)
-    try{
+    try {
         const val = mySubString.replace(/3D/g, '');
         return val
-    }catch(e){
+    } catch (e) {
         return "";
     }
 }
