@@ -63,8 +63,12 @@ parseBetween = (beginString, endString, originalString) => {
 
 
 module.exports.splitEmail = (email = "") => {
-    var str = email.split(' ');
-    var lastIndex = str.length - 1;
-    str = str[lastIndex].split('\n');
-    return str[1];
+    if (typeof email === 'string') {
+        var str = email.split(' ');
+        var lastIndex = str.length - 1;
+        str = str[lastIndex].split('\n');
+        return str[1];
+    } else {
+        return ""
+    }
 }

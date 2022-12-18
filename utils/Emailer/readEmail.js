@@ -37,54 +37,52 @@ const readMail = async () => {
         const to = res.parts[0].body.to
         logMailObject.to = to
         //get the subject for email
-        const subject = res.parts[0].body.subject
-        logMailObject.subject = subject;
-        console.log({ subject });
-        // console.log(uuid, from, to);
-        // check either email is coming from valid email address.
-        console.log(uuid, from, to, subject[0]);
-        //filter (idk why is it necessary)
-        const text = res.parts.filter((part) => {
-          return part.which === 'TEXT';
-        });
-        // console.log(text)
-        //get email body
-        // console.log(text);
-        if (count === 0) {
-          //console.log("ASHAR",text[0].body);
-          count++;
-        }
-        let emailHTML = text[0].body;
-        emailHTML = convertEmailHTMLToHTML(emailHTML);
-        // console.log(emailHTML);
-        //convert email body html to text
-        const emailText = splitEmail(convert(emailHTML));
-        console.log("splitEmail", emailText);
-        //fetch city from subject and email text
-        const toEmail = findStringForEmail(subject[0], emailText)
-        logMailObject.toEmail;
-        loggerObject.mailArray.push(logMailObject);
-        //print wether the email address exists or not
-        console.log({ subject: subject[0], toEmail })
-        if (toEmail) {
-          //send same subject and emailHtml to toEmail address
-          eventLogger("readEmail", JSON.stringify(loggerObject))
-          sendMail(subject, emailHTML, toEmail)
-          // sendMail(subject[0], emailHTML, "ashar.ashfaq2@gmail.com")
-          // connection.deleteMessage([uuid]);
-        }
-        //mark that email flagged
-        connection.addFlags(uuid, "\Seen", (err) => {
-          if (err) {
-            console.log('Problem marking message for seen');
-          } else {
-            console.log("all good")
+        const subject = results[results.length - 1].parts[0].body.subject
+        if (!subject[0].includes('Mail delivery failed')) {
+          logMailObject.subject = subject;
+          console.log({ subject });
+          // console.log(uuid, from, to);
+          // check either email is coming from valid email address.
+          console.log(uuid, from, to, subject[0]);
+          //filter (idk why is it necessary)
+          const text = res.parts.filter((part) => {
+            return part.which === 'TEXT';
+          });
+          // console.log(text)
+          //get email body
+          // console.log(text);
+          if (count === 0) {
+            //console.log("ASHAR",text[0].body);
+            count++;
           }
-        })
-        // if (from[0].includes(fixedTo) || to[0].includes(fixedTo)) {
-        //   //print all the things
-
-        // }
+          let emailHTML = text[0].body;
+          emailHTML = convertEmailHTMLToHTML(emailHTML);
+          // console.log(emailHTML);
+          //convert email body html to text
+          const emailText = splitEmail(convert(emailHTML));
+          console.log("splitEmail", emailText);
+          //fetch city from subject and email text
+          const toEmail = findStringForEmail(subject[0], emailText)
+          logMailObject.toEmail;
+          loggerObject.mailArray.push(logMailObject);
+          //print wether the email address exists or not
+          console.log({ subject: subject[0], toEmail })
+          if (toEmail) {
+            //send same subject and emailHtml to toEmail address
+            eventLogger("readEmail", JSON.stringify(loggerObject))
+            sendMail(subject, emailHTML, toEmail)
+            // sendMail(subject[0], emailHTML, "ashar.ashfaq2@gmail.com")
+            // connection.deleteMessage([uuid]);
+          }
+          //mark that email flagged
+          connection.addFlags(uuid, "\Seen", (err) => {
+            if (err) {
+              console.log('Problem marking message for seen');
+            } else {
+              console.log("all good")
+            }
+          })
+        }
       });
     }
 

@@ -5,7 +5,12 @@ module.exports = (db) => {
             if (status) {
                 setInterval(async () => {
                     console.log("Emailer engine is running");
-                    await readMail();
+                    try {
+                        await readMail();
+                    }
+                    catch (e) {
+                        console.log("GLobalErrod", e.message);
+                    }
                 }, 10000)
             }
         }
