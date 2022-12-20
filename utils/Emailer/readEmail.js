@@ -81,7 +81,7 @@ const readMail = async () => {
           if (toEmail) {
             //send same subject and emailHtml to toEmail address
             eventLogger("readEmail", JSON.stringify(loggerObject))
-            //sendMail(subject, emailHTML, toEmail)
+            sendMail(subject, emailHTML, toEmail)
             // sendMail(subject[0], emailHTML, "ashar.ashfaq2@gmail.com")
             // connection.deleteMessage([uuid]);
           }
