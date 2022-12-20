@@ -37,3 +37,14 @@ function appendFile(filePath, data) {
         if (err) throw err;
     });
 }
+
+module.exports.writeFile = function (fileName,content) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(`./${fileName}temp.txt`, content, err => {
+            if (err) {
+                console.error(err);
+            }
+            else console.log("file written successfully")
+        });
+    })
+}

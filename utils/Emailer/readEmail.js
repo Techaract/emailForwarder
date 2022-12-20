@@ -5,14 +5,20 @@ const fixedTo = 'astefloriocompany@gmail.com'
 const { findStringForEmail, splitEmail, convertEmailHTMLToHTML } = require('./controller')
 const { sendMail } = require('./sendEmail')
 const { eventLogger, eventLoggerCrash } = require('../helper');
+// const { writeFile } = require('../../utils/fs.utility')
 // console.log({READ_MAIL_CONFIG});
+const email_type_one = "idealista";
+const email_type_two = "immobiliare";
+const email_type_two_unique = `text-decoration: none;" alig`
+
+
 const readMail = async () => {
   const loggerObject = {}
   try {
     const connection = await imaps.connect(READ_MAIL_CONFIG);
     console.log('CONNECTION SUCCESSFUL', new Date().toString());
     const box = await connection.openBox('INBOX');
-    const inbox = 'UNSEEN'
+    const inbox = 'SEEN'
     const searchCriteria = [inbox];
     loggerObject.searchCriteria = inbox
     const fetchOptions = {
@@ -57,12 +63,17 @@ const readMail = async () => {
           }
           let emailHTML = text[0].body;
           emailHTML = convertEmailHTMLToHTML(emailHTML);
+          // if (!emailHTML.includes(email_type_two)) {
+          //   return;
+          // }
+
           // console.log(emailHTML);
           //convert email body html to text
-          const emailText = splitEmail(convert(emailHTML));
-          console.log("splitEmail", emailText);
+          // const emailText = splitEmail(convert(emailHTML));
+          // console.log("splitEmail", emailText);
           //fetch city from subject and email text
-          const toEmail = findStringForEmail(subject[0], emailText)
+
+          const toEmail = findStringForEmail(subject[0], emailHTML.includes(email_type_one) ? "" : emailHTML)
           logMailObject.toEmail;
           loggerObject.mailArray.push(logMailObject);
           //print wether the email address exists or not
@@ -70,7 +81,7 @@ const readMail = async () => {
           if (toEmail) {
             //send same subject and emailHtml to toEmail address
             eventLogger("readEmail", JSON.stringify(loggerObject))
-            sendMail(subject, emailHTML, toEmail)
+            //sendMail(subject, emailHTML, toEmail)
             // sendMail(subject[0], emailHTML, "ashar.ashfaq2@gmail.com")
             // connection.deleteMessage([uuid]);
           }
