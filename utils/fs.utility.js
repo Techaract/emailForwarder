@@ -40,11 +40,11 @@ function appendFile(filePath, data) {
 
 module.exports.writeFile = function (fileName,content) {
     return new Promise((resolve, reject) => {
-        fs.writeFile(`./${fileName}temp.txt`, content, err => {
+        fs.writeFile(`./htmlTemplates/${fileName}temp.html`, content, err => {
             if (err) {
                 console.error(err);
             }
-            else console.log("file written successfully")
+            // else console.log("file written successfully")
         });
     })
 }

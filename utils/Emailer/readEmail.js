@@ -5,12 +5,12 @@ const fixedTo = 'astefloriocompany@gmail.com'
 const { findStringForEmail, splitEmail, convertEmailHTMLToHTML } = require('./controller')
 const { sendMail } = require('./sendEmail')
 const { eventLogger, eventLoggerCrash } = require('../helper');
-// const { writeFile } = require('../../utils/fs.utility')
+const { writeFile } = require('../../utils/fs.utility')
 // console.log({READ_MAIL_CONFIG});
 const email_type_one = "idealista";
 const email_type_two = "immobiliare";
 const email_type_two_unique = `text-decoration: none;" alig`
-
+const email_type_two_uniquev2 = "13px; color: #666666; line-height: 25px; text-decoration:=";
 
 const readMail = async () => {
   const loggerObject = {}
@@ -31,7 +31,7 @@ const readMail = async () => {
       loggerObject.emailsLength = results.length;
       var count = 0
       loggerObject.mailArray = []
-      results.forEach((res) => {
+      results.forEach((res, index) => {
         //get id for email
         const logMailObject = {};
         const uuid = res.attributes.uid;
@@ -43,13 +43,13 @@ const readMail = async () => {
         const to = res.parts[0].body.to
         logMailObject.to = to
         //get the subject for email
-        const subject = results[results.length - 1].parts[0].body.subject
+        const subject = res.parts[0].body.subject
         if (!subject[0].includes('Mail delivery failed')) {
           logMailObject.subject = subject;
-          console.log({ subject });
+          // console.log({ subject });
           // console.log(uuid, from, to);
           // check either email is coming from valid email address.
-          console.log(uuid, from, to, subject[0]);
+          //console.log(uuid, from, to, subject[0]);
           //filter (idk why is it necessary)
           const text = res.parts.filter((part) => {
             return part.which === 'TEXT';
@@ -63,18 +63,16 @@ const readMail = async () => {
           }
           let emailHTML = text[0].body;
           emailHTML = convertEmailHTMLToHTML(emailHTML);
-          // if (!emailHTML.includes(email_type_two)) {
-          //   return;
+          // console.log(subject[0]);
+          // if (!subject[0].includes(',')) {
+
+          // } else {
+
           // }
-
-          // console.log(emailHTML);
-          //convert email body html to text
-          // const emailText = splitEmail(convert(emailHTML));
-          // console.log("splitEmail", emailText);
-          //fetch city from subject and email text
-
+          // writeFile(uuid, emailHTML);
+          // writeFile(uuid+"subject", JSON.stringify({subject: subject[0]}));
           const toEmail = findStringForEmail(subject[0], emailHTML.includes(email_type_one) ? "" : emailHTML)
-          logMailObject.toEmail;
+          logMailObject.toEmail = toEmail;
           loggerObject.mailArray.push(logMailObject);
           //print wether the email address exists or not
           console.log({ subject: subject[0], toEmail })
@@ -93,6 +91,13 @@ const readMail = async () => {
               console.log("all good")
             }
           })
+          // console.log(emailHTML);
+          //convert email body html to text
+          // const emailText = splitEmail(convert(emailHTML));
+          // console.log("splitEmail", emailText);
+          //fetch city from subject and email text
+
+
         }
       });
     }

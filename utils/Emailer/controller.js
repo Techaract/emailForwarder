@@ -2,6 +2,11 @@ const json = require('../../output.json')
 const email_type_one = "idealista";
 const email_type_two = "immobiliare";
 const email_type_two_unique = `text-decoration: none;" alig`
+const email_type_two_uniquev2 = "13px; color: #666666; line-height: 25px; text-decoration:=";
+const email_type_two_sub_strings = [
+    `text-decoration: none;" alig`,
+    "13px; color: #666666; line-height: 25px; text-decoration:="
+  ]
 module.exports.findStringForEmail = (subject = "", textBody = "") => {
     var email = null
     json.forEach(item => {
@@ -37,7 +42,14 @@ const stringMatchForSubject = (subject = "", city = "", textBody = "") => {
 
 const extractFromHTML = (textBody, city) => {
     // console.log(typeof textBody);
-    let str = parseBetween(email_type_two_unique, "</td>", textBody);
+    var unique_string = "";
+    email_type_two_sub_strings.forEach(str => {
+        if(textBody.includes(str)){
+            unique_string = str;
+        }
+    })
+    // const unique_string = textBody.includes(email_type_two_unique) ? email_type_two_unique : email_type_two_uniquev2
+    let str = parseBetween(unique_string, "</td>", textBody);
     var newStr = str.split(',');
     var lastIndex = newStr.length > 0 ? newStr.length - 1 : 0;
     // console.log("extractFromHTML", newStr[lastIndex].trim(), city)
